@@ -1,0 +1,53 @@
+server:
+  port: 8080
+
+spring:
+  freemarker:
+    suffix: .ftl
+    charset: UTF-8
+    cache: false
+  resources:
+    static-locations: classpath:/static/
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Yu753951
+    url: jdbc:mysql://sh-cynosdbmysql-grp-cqtqxfr0.sql.tencentcdb.com:21786/test?characterEncoding=utf8&useSSL=false&serverTimezone=UT
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 数据库连接池初始值
+      initial-size: 5
+      # 数据库连接池最小空闲值
+      min-idle: 5
+      # 数据库连接池最大值
+      max-active: 20
+      # 获取连接时最大等待时间，单位毫秒(1分钟)
+      max-wait: 60000
+      # 池中空闲连接大于minIdle且连接空闲时间大于该值，则关闭该连接，单位毫秒(5分钟，默认30分钟)
+      min-evictable-idle-time-millis: 300000
+      # 检测连接是否有效时执行的sql命令
+      validation-query: select 1
+
+      # 借用连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      test-on-borrow: false
+
+      # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      test-on-return: false
+      pool-prepared-statements: true
+      filters: stat,wall,filters
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          enabled: true
+        wall:
+          enabled: true
+          config:
+            drop-table-allow: false
+      max-pool-prepared-statement-per-connection-size: 20
+      use-global-data-source-stat: true
+
+
+mybatis:
+  mapper-locations: classpath:mappers/*xml
+
